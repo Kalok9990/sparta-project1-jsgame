@@ -1,0 +1,93 @@
+body{
+  background-color: #d2d2d2;
+  text-align: center;
+}
+
+.container {
+  width: 90%;
+  height: 800px;
+  margin: auto;
+  text-align: center;
+}
+
+table{
+  display: block;
+  margin: auto;
+  width: 500px;
+  height: 500px;
+  border: solid;
+  border-color: black;
+}
+
+td{
+  width: 62px;
+  height: 62px;
+}
+
+.b{
+  background-color: black;
+}
+
+.w{
+  background-color: white;
+}
+
+.row {
+  text-align: center;
+}
+
+.row2 {
+  height: 200px;
+}
+
+.two {
+  height: auto;
+}
+
+.three {
+  height: auto;
+}
+
+.four {
+  height: auto;
+}
+
+.five {
+  background-color: silver;
+  height: 350px;
+}
+
+.moves{
+  height: 340px;
+  margin-top: 5px;
+  overflow-y:auto;
+  border: solid;
+  border-color: black;
+}
+
+h2{
+  margin-top: 20px;
+}
+
+.killable{
+  border: solid;
+  border-color: red;
+}
+
+.active{
+  border: solid;
+  border-color: blue;
+}
+
+.piece {
+  background-image: url(https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Chess_Pieces_Sprite.svg/2000px-Chess_Pieces_Sprite.svg.png);
+  background-size: 570%;
+  height:60px;
+  width:60px;
+  position:absolute;
+}
+
+.piece:hover{
+  border: solid;
+  border-color: blue;
+}
