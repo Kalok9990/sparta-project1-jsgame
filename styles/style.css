@@ -25,7 +25,7 @@ td{
 }
 
 .b{
-  background-color: black;
+  background-color: gray;
 }
 
 .w{
@@ -79,15 +79,64 @@ h2{
   border-color: blue;
 }
 
-.piece {
-  background-image: url(https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Chess_Pieces_Sprite.svg/2000px-Chess_Pieces_Sprite.svg.png);
-  background-size: 570%;
-  height:60px;
-  width:60px;
-  position:absolute;
+.piece{
+  background-image:url('http://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Chess_Pieces_Sprite.svg/2000px-Chess_Pieces_Sprite.svg.png');
+  background-size: 586%;
+  height:62px;
+  width:61px;
+  border:1px solid gray;
 }
 
 .piece:hover{
   border: solid;
   border-color: blue;
+}
+
+#bRook{
+  background-position:-234px 60px;
+}
+
+#bPawn{
+  background-position:60px 60px;
+}
+
+#bBishop{
+  background-position:237px 60px;
+}
+
+#bKnight{
+  background-position:-177px 60px;
+}
+
+#bKing{
+  background-position:1px 60px;
+}
+
+#bQueen{
+  background-position:-58px 60px;
+}
+
+
+#wRook{
+  background-position:120px 0;
+}
+
+#wPawn{
+  background-position:61px 0;
+}
+
+#wBishop{
+  background-position:237px 0;
+}
+
+#wKnight{
+  background-position:177px 0;
+}
+
+#wKing{
+  background-position:1px 0;
+}
+
+#wQueen{
+  background-position:-59px 0;
 }

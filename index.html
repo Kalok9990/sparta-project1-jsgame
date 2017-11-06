@@ -7,7 +7,6 @@
     <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
-    <script type="text/javascript" src="./js/pieces.js"></script>
     <script type="text/javascript" src="./js/main.js"></script>
     <title>Chess</title>
   </head>
@@ -24,24 +23,24 @@
           <table id="board">
             <tbody>
               <tr id="a">
-                <td class="w piece" data-num = "1"></td>
-                <td class="b" data-num = "2"></td>
-                <td class="w" data-num = "3"></td>
-                <td class="b" data-num = "4"></td>
-                <td class="w" data-num = "5"></td>
-                <td class="b" data-num = "6"></td>
-                <td class="w" data-num = "7"></td>
-                <td class="b" data-num = "8"></td>
+                <td class="w piece" id="bRook" data-num = "1"></td>
+                <td class="b piece" id="bKnight" data-num = "2"></td>
+                <td class="w piece" id="bBishop" data-num = "3"></td>
+                <td class="b piece" id="bQueen" data-num = "4"></td>
+                <td class="w piece" id="bKing" data-num = "5"></td>
+                <td class="b piece" id="bBishop" data-num = "6"></td>
+                <td class="w piece" id="bKnight" data-num = "7"></td>
+                <td class="b piece" id="bRook" data-num = "8"></td>
               </tr>
               <tr id="b">
-                <td class="b" data-num = "1"></td>
-                <td class="w" data-num = "2"></td>
-                <td class="b" data-num = "3"></td>
-                <td class="w" data-num = "4"></td>
-                <td class="b" data-num = "5"></td>
-                <td class="w" data-num = "6"></td>
-                <td class="b" data-num = "7"></td>
-                <td class="w" data-num = "8"></td>
+                <td class="b piece" id="bPawn" data-num = "1"></td>
+                <td class="w piece" id="bPawn" data-num = "2"></td>
+                <td class="b piece" id="bPawn" data-num = "3"></td>
+                <td class="w piece" id="bPawn" data-num = "4"></td>
+                <td class="b piece" id="bPawn" data-num = "5"></td>
+                <td class="w piece" id="bPawn" data-num = "6"></td>
+                <td class="b piece" id="bPawn" data-num = "7"></td>
+                <td class="w piece" id="bPawn" data-num = "8"></td>
               </tr>
               <tr id="c">
                 <td class="w" data-num = "1"></td>
@@ -84,24 +83,24 @@
                 <td class="w" data-num = "8"></td>
               </tr>
               <tr id="g">
-                <td class="w" data-num = "1"></td>
-                <td class="b" data-num = "2"></td>
-                <td class="w" data-num = "3"></td>
-                <td class="b" data-num = "4"></td>
-                <td class="w" data-num = "5"></td>
-                <td class="b" data-num = "6"></td>
-                <td class="w" data-num = "7"></td>
-                <td class="b" data-num = "8"></td>
+                <td class="w piece" id="wPawn" data-num = "1"></td>
+                <td class="b piece" id="wPawn" data-num = "2"></td>
+                <td class="w piece" id="wPawn" data-num = "3"></td>
+                <td class="b piece" id="wPawn" data-num = "4"></td>
+                <td class="w piece" id="wPawn" data-num = "5"></td>
+                <td class="b piece" id="wPawn" data-num = "6"></td>
+                <td class="w piece" id="wPawn" data-num = "7"></td>
+                <td class="b piece" id="wPawn" data-num = "8"></td>
               </tr>
               <tr id="h">
-                <td class="b" data-num = "1"></td>
-                <td class="w" data-num = "2"></td>
-                <td class="b" data-num = "3"></td>
-                <td class="w" data-num = "4"></td>
-                <td class="b" data-num = "5"></td>
-                <td class="w" data-num = "6"></td>
-                <td class="b" data-num = "7"></td>
-                <td class="w" data-num = "8"></td>
+                <td class="b piece" id="wRook" data-num = "1"></td>
+                <td class="w piece" id="wKnight" data-num = "2"></td>
+                <td class="b piece" id="wBishop" data-num = "3"></td>
+                <td class="w piece" id="wQueen" data-num = "4"></td>
+                <td class="b piece" id="wKing" data-num = "5"></td>
+                <td class="w piece" id="wBishop" data-num = "6"></td>
+                <td class="b piece" id="wKnight" data-num = "7"></td>
+                <td class="w piece" id="wRook" data-num = "8"></td>
               </tr>
             </tbody>
           </table>
