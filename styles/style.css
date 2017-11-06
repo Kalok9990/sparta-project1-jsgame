@@ -70,13 +70,11 @@ h2{
 }
 
 .killable{
-  border: solid;
-  border-color: red;
+  border: 2px solid red;
 }
 
 .active{
-  border: solid;
-  border-color: blue;
+  border: 2px solid blue;
 }
 
 .piece{
@@ -88,8 +86,7 @@ h2{
 }
 
 .piece:hover{
-  border: solid;
-  border-color: blue;
+  border: 2px solid blue;
 }
 
 #bRook{
