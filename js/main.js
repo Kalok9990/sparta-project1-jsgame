@@ -20,21 +20,32 @@ $( document ).ready(function() {
     black = !black;
   }
 
-  $(".piece").click(sq_and_piece);
-  $("td").click(move);
+  $("td").click(checkThisOut);
 
-  // function check(){
-  //   debugger
-  //   //if info in array call move
-  //   if(current.length != 0){
-  //     move();
-  //   }
-  // }
+  function checkThisOut() {
+    if ($(this).hasClass("piece")) {
+      sq_and_piece($(this));
+    }
+  }
 
-  function move(){
-    //debugger
-    $(this).addClass("piece")
-    $(this).attr("id", current[0]);
+  // $(".piece").click(sq_and_piece);
+  $("td").dblclick(checkArray); //eventually change to finding class of empty
+
+  function checkArray(){
+    debugger
+    //if info in array call move
+    if(current.length != 0){
+      move($(this));
+    }
+    current = [];
+    pos = [];
+    // empty array after whole move
+  }
+
+  function move(selectedPiece){
+    debugger
+    selectedPiece.addClass("piece")
+    selectedPiece.attr("id", current[0]);
     var $previousPiece = $("td")[pos[0]];
     $($previousPiece).removeClass("piece");
 
@@ -50,9 +61,10 @@ $( document ).ready(function() {
     // }
   }
 
-  function sq_and_piece(){ //get info of square and piece
-    var $td = $(this).attr("data-num");
-    var $piece = $(this).attr("id");
+  function sq_and_piece(selectedsq){ //get info of square and piece
+    debugger
+    var $td = selectedsq.attr("data-num");
+    var $piece = selectedsq.attr("id");
     current.push($piece);
     pos.push($td);
     console.log($td);
