@@ -28,18 +28,26 @@ $( document ).ready(function() {
 
   $("td").click(checkThisOut);
 
+  //selects the piece if the square contains a piece
   function checkThisOut() {
     if ($(this).hasClass("piece")) {
       sq_and_piece($(this));
     }
   }
 
-  // $(".piece").click(sq_and_piece);
+  //gets info of square and piece
+  function sq_and_piece(selectedsq){
+    debugger
+    var $td = selectedsq.attr("data-num");
+    var $piece = selectedsq.attr("id");
+    current.push($piece);
+    pos.push($td);
+  }
+
   $("td").dblclick(checkArray); //eventually change to finding class of empty
 
+  //Calls the function move if there is piece selected
   function checkArray(){
-    debugger
-    //if info in array call move
     if(current.length != 0){
       move($(this));
     }
@@ -47,35 +55,15 @@ $( document ).ready(function() {
     pos = [];
   }
 
+  //moves the selected piece to the square
   function move(selectedPiece){
-    debugger
     selectedPiece.addClass("piece")
     selectedPiece.attr("id", current[0]);
     var $previousPiece = $("td")[pos[0]];
     $($previousPiece).removeClass("piece");
-
-
-    // $(this).removeAttr("id");
-    // if(unit){
-    //   if(!($(unit).indexOf(char))){
-    //     $(this).addClass("piece").attr("id", unit);
-    //   }
-    //   else{
-    //     alert("Cannot take your own piece!");
-    //   }
-    // }
   }
 
-  function sq_and_piece(selectedsq){ //get info of square and piece
-    debugger
-    var $td = selectedsq.attr("data-num");
-    var $piece = selectedsq.attr("id");
-    current.push($piece);
-    pos.push($td);
-    console.log($td);
-    console.log($piece);
-  }
-
+  //sets the timer to 30 seconds
   var i = 30;
   var countDownInterval;
   function countDown() {

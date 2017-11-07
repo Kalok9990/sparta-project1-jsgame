@@ -12,13 +12,25 @@
   </head>
   <body>
     <h1>2 Player Chess</h1>
-    <button id="play">Play Game</button>
+    <div id="play">
+      <!-- button to initiate the game -->
+      <button>Play Game</button>
+      <p>Rules</p>
+      <ul>
+        <li>This is basic chess. There is no castling involved</li>
+        <li>Single click on piece to select it</li>
+        <li>Double click on the square you want to move the piece to</li>
+        <li>Press the button to start the game</li>
+      </ul>
+    </div>
     <div class="container">
       <div class="row">
         <div class="col-md-1"></div>
+        <!-- div that contains white dead pieces -->
         <div id="wd" class="col-md-1 two row2">
           White dead pieces
         </div>
+        <!-- the board -->
         <div class="col-md-16 three">
           <table id="board">
             <tbody>
@@ -105,14 +117,17 @@
             </tbody>
           </table>
         </div>
+        <!-- div that contains black dead pieces -->
         <div id="bd" class="col-md-1 four row2">
           Black dead pieces
         </div>
+        <!-- div that contains the moves that have been played -->
         <div class="col-md-2 five row2">
           <div class="moves"></div>
         </div>
       </div>
       <div class="row">
+        <!-- Displays the timer and which player's turn -->
         <div class="col-sm-12">
           <h2 class="playerTurn">It is White's move</h2>
           <p id="time"></p>
