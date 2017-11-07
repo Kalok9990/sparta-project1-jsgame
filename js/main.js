@@ -6,18 +6,24 @@ $( document ).ready(function() {
   var enemy = [];
   var pos = [];
 
-  // $(".container").hide();
+  $(".container").hide();
   $("#play").click(revealBoard);
   //Function to hide button and reveal board
   function revealBoard() {
       $(".container").show();
       $("#play").hide();
+      countDown();
   }
 
   //changes the players turn
   function changeTurn(){
     white = !white;
     black = !black;
+    if(white){
+      $(".playerTurn").html("It is White's move");
+    }else if(black){
+      $(".playerTurn").html("It is Black's move");
+    }
   }
 
   $("td").click(checkThisOut);
@@ -39,7 +45,6 @@ $( document ).ready(function() {
     }
     current = [];
     pos = [];
-    // empty array after whole move
   }
 
   function move(selectedPiece){
@@ -71,5 +76,18 @@ $( document ).ready(function() {
     console.log($piece);
   }
 
+  var i = 30;
+  var countDownInterval;
+  function countDown() {
+    countDownInterval = setInterval(function () {
+      console.log('interval running')
+      document.getElementById("time").innerHTML = "Time remaining: " + i + "s";
+      i--;
+      if(i < 0){
+        changeTurn();
+        i = 30;
+      }
+    }, 1000);
+  }
 
 });
