@@ -2,6 +2,8 @@ $( document ).ready(function() {
 
   var white = true;
   var black = false;
+  var current = [];
+  var enemy = [];
 
   // $(".container").hide();
   $("#play").click(revealBoard);
@@ -17,23 +19,31 @@ $( document ).ready(function() {
     black = !black;
   }
 
-  $("td").click(sq_and_piece);
+  $(".piece").click(sq_and_piece);
+  $("td").click(move);
 
-  function move(tr, td, piece){
-    debugger
-    $(tr).addClass("active");
 
+  function move(){
+    $(this).addClass("piece").attr("id", current[0]);
+    current = [];
+    // $(this).removeAttr("id");
+    changeTurn();
+    // if(unit){
+    //   if(!($(unit).indexOf(char))){
+    //     $(this).addClass("piece").attr("id", unit);
+    //   }
+    //   else{
+    //     alert("Cannot take your own piece!");
+    //   }
+    // }
   }
 
-  function sq_and_piece(){
-    var tr = $(this).closest("tr").attr("id");
-    var td = $(this).attr("data-num");
-    var piece = $(this).attr("id");
-    $(this).addClass("active");
-    console.log(tr);
-    console.log(td);
-    console.log(piece);
-    $("td").click(move(tr, td, piece));
+  function sq_and_piece(){ //get info of square and piece
+    var $td = $(this).attr("data-num");
+    var $piece = $(this).attr("id");
+    current.push($tr, $td, $piece);
+    console.log($td);
+    console.log($piece);
   }
 
 
