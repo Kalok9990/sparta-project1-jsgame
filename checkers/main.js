@@ -14,6 +14,8 @@ $(document).ready(function() {
   //stores instances as arrays
   var pieces = [];
   var tiles =[];
+  var player1 = true;
+  var player2 = false;
 
   //Pythagoras' Theorem
   function getDistance(x1, x2, y1, y2){
@@ -52,21 +54,58 @@ $(document).ready(function() {
           }
         }
       }
+    },
+    
+    isValidToMove: function(row, column){
+      if(this.board[row][column] === 0){
+        return true;
+      }
+      return false;
+    }
+
+    clear: function(){
+      //reload page?
+    }
+
+  }
+
+  function changeTurn(){
+    player1 != player1;
+    player2 != player2;
+    if(player1){
+      $(".playerTurn").html("It is player 1's turn");
+    }else if(player2){
+      $(".playerTurn").html("It is player 2's turn");
     }
   }
 
   function Tile(element, position){
+    //links the DOM element
     this.element = element;
     //position of tile
     this.position = position;
+    //check what range tile is to the piece
     this.inRange = function(piece){
-
+      if(getDistance(this.position[0], this.position[1], piece.position[0], piece.position[1]) === Math.sqrt(2)){
+        return "regular";
+      }else if(getDistance(this.position[0], this.position[1], piece.position[0], piece.position[1]) === 2*Math.sqrt(2)){
+        return "jumpover";
+      }
     }
   }
 
   function Piece(element, position){
+    //links DOM element
     this.element = element;
+    //position of piece
     this.position = position;
+    //player
+    this.player = " ";
+    if(this.element.attr("id") < 12){
+      this.player = player 1;
+    }else{
+      this.player = player 2;
+    }
   }
 
   Board.intialise();
