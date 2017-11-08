@@ -8,7 +8,7 @@ $( document ).ready(function() {
 
   $(".container").hide();
   $("#play").click(revealBoard);
-  
+
   //Function to hide button and reveal board
   function revealBoard() {
     $(".container").show();
@@ -48,9 +48,11 @@ $( document ).ready(function() {
 
   //Calls the function move if there is piece selected
   function checkArray(){
-    if(current.length != 0){
-      move($(this));
-    }
+    // if($(this).hasClass("empty")){
+      if(current.length != 0){
+        move($(this));
+      }
+
     current = [];
     pos = [];
   }
@@ -61,6 +63,16 @@ $( document ).ready(function() {
     selectedPiece.attr("id", current[0]);
     var $previousPiece = $("td")[pos[0]];
     $($previousPiece).removeClass("piece").addClass("empty");
+  }
+
+  //checks if piece is white or black
+  function checkPiece(piece){
+    debugger
+    if(piece.indexOf("w") >= 0){
+      return true;
+    }else if(piece.indexOf("b") >= 0){
+      return false;
+    }
   }
 
   //sets the timer to 30 seconds

@@ -89,51 +89,51 @@ h2{
   border: 3px solid blue;
 }
 
-#bRook{
+#bR{
   background-position:-234px 60px;
 }
 
-#bPawn{
+#bP{
   background-position:60px 60px;
 }
 
-#bBishop{
+#bB{
   background-position:237px 60px;
 }
 
-#bKnight{
+#bKn{
   background-position:-177px 60px;
 }
 
-#bKing{
+#bK{
   background-position:1px 60px;
 }
 
-#bQueen{
+#bQ{
   background-position:-58px 60px;
 }
 
 
-#wRook{
+#wR{
   background-position:120px 0;
 }
 
-#wPawn{
+#wP{
   background-position:61px 0;
 }
 
-#wBishop{
+#wB{
   background-position:237px 0;
 }
 
-#wKnight{
+#wKn{
   background-position:177px 0;
 }
 
-#wKing{
+#wK{
   background-position:1px 0;
 }
 
-#wQueen{
+#wQ{
   background-position:-59px 0;
 }
