@@ -27,6 +27,7 @@ $(document).ready(function() {
     playerTurn: 1,
     tilesElem: $(".tiles"),
     dictionary: ["0vmin", "10vmin", "20vmin", "30vmin", "40vmin", "50vmin", "60vmin", "70vmin", "80vmin", "90vmin"],
+    //initialise 8x8 board
     intialise: function(){
       var countPieces = 0;
       var countTiles = 0;
@@ -55,7 +56,8 @@ $(document).ready(function() {
         }
       }
     },
-    
+
+    //checks if tile is ok to move to
     isValidToMove: function(row, column){
       if(this.board[row][column] === 0){
         return true;
@@ -105,7 +107,13 @@ $(document).ready(function() {
       this.player = player 1;
     }else{
       this.player = player 2;
-    }
+    };
+    this.king = false;
+    this.kingify: function(){
+      this.king = true;
+      //need image to put on piece
+    };
+    
   }
 
   Board.intialise();
