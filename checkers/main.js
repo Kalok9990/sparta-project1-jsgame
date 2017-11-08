@@ -65,9 +65,9 @@ $(document).ready(function() {
       return false;
     }
 
-    clear: function(){
-      //reload page?
-    }
+    // clear: function(){
+    //   //reload page?
+    // }
 
   }
 
@@ -103,17 +103,42 @@ $(document).ready(function() {
     this.position = position;
     //player
     this.player = " ";
+    //assigns id to pieces which defines wich player it belongs to
     if(this.element.attr("id") < 12){
-      this.player = player 1;
+      this.player = 1;
     }else{
-      this.player = player 2;
+      this.player = 2;
     };
+    //function to king the piece
     this.king = false;
-    this.kingify: function(){
+    this.kingify =  function(){
       this.king = true;
-      //need image to put on piece
+      //need image of crown to put on piece
     };
-    
+
+    //moves piece
+    this.move = function(tile){
+      this.removeClass("selected");
+      if(!Board.isValidToMove(tile.position[0], tile.position[1])){
+        return false;
+      }
+      //ensure piece cannot go backwards (unless its king)
+      if(player1 === true && this.king === false){
+        if(tile.position[0] < this.position[0]){
+          return false;
+        }
+      }else if(player2 === true && this.king === false){
+        if(tile.position[0] < this.position[0]){
+          return false;
+        }
+      }
+      //kings the piece if it reaches the other side of the Board
+      if(!this.king && this.position[0] === 0 || this.position[0] === 7){
+        this.kingify();
+      }
+      changeTurn();
+      return true;
+    }
   }
 
   Board.intialise();
