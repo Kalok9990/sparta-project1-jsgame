@@ -8,11 +8,12 @@ $( document ).ready(function() {
 
   $(".container").hide();
   $("#play").click(revealBoard);
+  
   //Function to hide button and reveal board
   function revealBoard() {
-      $(".container").show();
-      $("#play").hide();
-      countDown();
+    $(".container").show();
+    $("#play").hide();
+    countDown();
   }
 
   //changes the players turn
@@ -37,7 +38,6 @@ $( document ).ready(function() {
 
   //gets info of square and piece
   function sq_and_piece(selectedsq){
-    debugger
     var $td = selectedsq.attr("data-num");
     var $piece = selectedsq.attr("id");
     current.push($piece);
@@ -57,10 +57,10 @@ $( document ).ready(function() {
 
   //moves the selected piece to the square
   function move(selectedPiece){
-    selectedPiece.addClass("piece")
+    selectedPiece.addClass("piece").removeClass("empty")
     selectedPiece.attr("id", current[0]);
     var $previousPiece = $("td")[pos[0]];
-    $($previousPiece).removeClass("piece");
+    $($previousPiece).removeClass("piece").addClass("empty");
   }
 
   //sets the timer to 30 seconds
@@ -77,5 +77,6 @@ $( document ).ready(function() {
       }
     }, 1000);
   }
+
 
 });
