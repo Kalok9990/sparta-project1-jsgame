@@ -7,7 +7,6 @@ $(document).ready(function() {
   function revealBoard() {
     $(".container").show();
     $("#play").hide();
-    countDown();
   }
 
   var gameboard = [
@@ -24,9 +23,8 @@ $(document).ready(function() {
   //stores instances as arrays
   var pieces = [];
   var tiles =[];
-  var player1 = true;
-  var player2 = false;
   var king = false;
+
   //Pythagoras' Theorem
   function getDistance(x1, x2, y1, y2){
     return Math.sqrt(Math.pow((x2-x1),2)+Math.pow((y2-y1),2));
@@ -83,22 +81,19 @@ $(document).ready(function() {
         return true;
       }
       return false;
-    }
+    },
 
-    // clear: function(){
-    //   //reload page?
-    // }
-  }
-
-  function changeTurn(){
-    player1 != player1;
-    player2 != player2;
-    if(player1){
-      this.player = 1;
-      $(".playerTurn").html("It is player 1's turn");
-    }else if(player2){
-      this.player = 2;
-      $(".playerTurn").html("It is player 2's turn");
+    //player turns changes
+    changeTurn: function(){
+      if(this.playerTurn == 1) {
+        this.playerTurn = 2;
+        $(".playerTurn").html("It is Player 2's turn")
+        return;
+      }
+      if(this.playerTurn == 2) {
+        this.playerTurn = 1;
+        $(".playerTurn").html("It is Player 1's turn")
+      }
     }
   }
 
@@ -110,22 +105,18 @@ $(document).ready(function() {
   }
 
   function inRange(selectpiece, x, y){
-    debugger;
-    if(getDistance(x, y, selectpiece.position[0], selectpiece.position[1]) === Math.sqrt(2)){
+    if(getDistance(x, selectpiece.position[0], y, selectpiece.position[1]) === Math.sqrt(2)){
       return "regular";
-    }else if(getDistance(x, y, selectpiece.position[0], selectpiece.position[1]) === 2*Math.sqrt(2)){
+    }else if(getDistance(x, selectpiece.position[0], y, selectpiece.position[1]) === 2*Math.sqrt(2)){
       return "jumpover";
     }
   }
-
 
   function Piece(element, position){
     //links DOM element
     this.element = element;
     //position of piece
     this.position = position;
-    //player
-    this.player = " ";
     //assigns id to pieces which defines wich player it belongs to
     if(this.element.attr("id") < 12){
       this.player = 1;
@@ -145,19 +136,11 @@ $(document).ready(function() {
     if(!Board.isValidToMove(tile.position[0], tile.position[1])){
       return false;
     }
-    // //ensure piece cannot go backwards (unless its king)
-    // if(player1 === true && king === false){
-    //   if(tile.position[0] > piece.position[0]){
-    //     return false;
-    //   }
-    // }else if(player2 === true && king === false){
-    //   if(tile.position[0] < piece.position[0]){
-    //     return false;
-    //   }
-    // }
+
     //removes piece and places in new tile
+    debugger
     Board.board[selectpiece.position[0]][selectpiece.position[1]] = 0;
-    Board.board[tile.position[0]][tile.position[1]] = this.player;
+    Board.board[tile.position[0]][tile.position[1]] = Board.playerTurn;
     selectpiece.position = [tile.position[0], tile.position[1]];
     selectpiece.element.css('top', Board.viewpoint[selectpiece.position[0]]);
     selectpiece.element.css('left', Board.viewpoint[selectpiece.position[1]]);
@@ -165,48 +148,65 @@ $(document).ready(function() {
     // if(!king && selectpiece.position[0] === 0 || selectpiece.position[0] === 7){
     //   piece.kingify();
     // }
-    changeTurn();
+    Board.changeTurn();
     return true;
   }
 
   //checks to see if it is valid for the piece to jump
-  function jump(){
-    if(this.canjump(this.position[0]+2, this.position[1]+2 || this.position[0]+2, this.position[1]-2 || this.position[0]-2, this.position[1]+2 || this.position[0]-2, this.position[1]-2)){
+  function jump(selectpiece, selectedtile){
+    debugger;
+    if(canjump([selectpiece.position[0]+2, selectpiece.position[1]+2], selectedtile) ||
+      canjump([selectpiece.position[0]+2, selectpiece.position[1]-2], selectedtile) ||
+      canjump([selectpiece.position[0]-2, selectpiece.position[1]+2], selectedtile) ||
+      canjump([selectpiece.position[0]-2, selectpiece.position[1]-2], selectedtile)){
       return true;
     }else{
       return false;
     }
   }
 
-  function canjump(newTile, piece){
+  function canjump(piece, newTile){
+    debugger;
     //find difference in distance
     var dx = newTile[1] - piece.position[1];
     var dy = newTile[0] - piece.position[0];
-    //ensure cant go backwards
-    if(player1 === true && piece.king === false){
-      if(newTile[0] < piece.position[0]){
-        return false;
-      }
-    }else if(player2 === true && piece.king === false){
-      if(newTile[0] > piece.position[0]){
-        return false;
-      }
-    }
+
     //define the tile in the middle
     var midx = piece.position[1] + (dx/2);
     var midy = piece.position[0] + (dy/2);
     //check if there is space after
-    if(!Board.isValidPlacetoMove(midx, midy) && Board.isValidPlacetoMove(newTile[0], newTile[1])) {
+    if(Board.isValidToMove(midx, midy) && Board.isValidToMove(newTile[0], newTile[1])) {
       //find which object instance is sitting there
       for(pieceIndex in pieces) {
         if(pieces[pieceIndex].position[0] == midy && pieces[pieceIndex].position[1] == midx) {
-          if(this.player != pieces[pieceIndex].player) {
+          if(Board.playerTurn != pieces[pieceIndex].player) {
             //return the piece sitting there
             return pieces[pieceIndex];
           }
         }
       }
+      return false;
     }
+  }
+
+  function remove(oppiece){
+    //removes piece
+    oppiece.element.css("display", "none");
+    //assigns board position as zero again
+    Board.board[oppiece.position[0]][oppiece.position[1]] = 0;
+    //empty the array to prevent it from being picked up in the for loop in canjump
+    oppiece.position = [];
+  }
+
+  function removepiece(oppiece, tile){
+    debugger
+      var pieceToRemove = canjump(oppiece, tile.position);
+      //if there is a piece to be removed, remove it
+      if(pieceToRemove) {
+        remove(pieces[pieceIndex]);
+        return true;
+      }
+      return false;
   }
 
   //Click Events
@@ -229,20 +229,22 @@ $(document).ready(function() {
       var tile = tiles[$(event.target).attr("id").replace("tile", "")];
       //get piece id
       var piece = pieces[$(".selected").attr("id")];
-
-      var test = $('.tiles')[tile.element[0].getAttribute('data-num')];
-      var id = parseInt(test.getAttribute('data-num'));
       var x = tile.position[0];
       var y = tile.position[1];
 
-
       //check if tile is in range
       var inrange = inRange(piece, x, y);
-      debugger
       if(inrange){
         //if piece can jumpover, check if it can jump again
         if(inrange == "jumpover"){
-          console.log("jumpover");
+          debugger
+          if(removepiece(piece, tile)){
+            movepiece(tile,piece);
+            if(jump(piece, tile)){
+              changeTurn();
+              $(event.target).addClass("selected");
+            }
+          }
         }else if(inrange == "regular"){
           movepiece(tile, piece);
         }
@@ -250,19 +252,6 @@ $(document).ready(function() {
     }
   });
 
-  //sets the timer to 30 seconds
-  var i = 30;
-  var countDownInterval;
-  function countDown() {
-    countDownInterval = setInterval(function () {
-      document.getElementById("time").innerHTML = "Time remaining: " + i + "s";
-      i--;
-      if(i < 0){
-        changeTurn();
-        i = 30;
-      }
-    }, 1000);
-  }
 
   Board.initialise();
 
