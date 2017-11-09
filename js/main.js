@@ -5,15 +5,23 @@ $( document ).ready(function() {
   var current = [];
   var enemy = [];
   var pos = [];
+  var time;
+  var countDownInterval;
 
   $(".container").hide();
   $("#play").click(revealBoard);
+  $("#lose").click(forfeit);
 
   //Function to hide button and reveal board
   function revealBoard() {
     $(".container").show();
     $("#play").hide();
-    countDown();
+    timers();
+  }
+
+  //function to forfeit
+  function forfeit(){
+
   }
 
   //changes the players turn
@@ -49,10 +57,9 @@ $( document ).ready(function() {
   //Calls the function move if there is piece selected
   function checkArray(){
     // if($(this).hasClass("empty")){
-      if(current.length != 0){
-        move($(this));
-      }
-
+    if(current.length != 0){
+      move($(this));
+    }
     current = [];
     pos = [];
   }
@@ -63,11 +70,12 @@ $( document ).ready(function() {
     selectedPiece.attr("id", current[0]);
     var $previousPiece = $("td")[pos[0]];
     $($previousPiece).removeClass("piece").addClass("empty");
+    clearInterval(countDownInterval);
+    timers();
   }
 
   //checks if piece is white or black
   function checkPiece(piece){
-    debugger
     if(piece.indexOf("w") >= 0){
       return true;
     }else if(piece.indexOf("b") >= 0){
@@ -76,19 +84,17 @@ $( document ).ready(function() {
   }
 
   //sets the timer to 30 seconds
-  var i = 30;
-  var countDownInterval;
-  function countDown() {
-    countDownInterval = setInterval(function () {
-      console.log('interval running')
-      document.getElementById("time").innerHTML = "Time remaining: " + i + "s";
-      i--;
-      if(i < 0){
+  function timers(){
+    time = 30;
+    // varcountDownInterval;
+    countDownInterval = setInterval(function (){
+      document.getElementById("time").innerHTML = "Time remaining: " + time + "s";
+      time--;
+      if(time < 0){
         changeTurn();
-        i = 30;
+        time = 30;
       }
     }, 1000);
   }
-
 
 });

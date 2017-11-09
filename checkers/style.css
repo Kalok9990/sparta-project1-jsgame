@@ -33,6 +33,7 @@ body{
   display: inline-block;
   margin-left: 1.4vmin;
   margin-top: 1.4vmin;
+  color: white;
 }
 
 .player2pieces .piece{
@@ -43,6 +44,7 @@ body{
   position: absolute;
   margin-left: 1.4vmin;
   margin-top: 1.4vmin;
+  color: white;
 }
 
 .selected{

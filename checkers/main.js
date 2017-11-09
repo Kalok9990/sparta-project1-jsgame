@@ -26,7 +26,7 @@ $(document).ready(function() {
   var tiles =[];
   var player1 = true;
   var player2 = false;
-
+  var king = false;
   //Pythagoras' Theorem
   function getDistance(x1, x2, y1, y2){
     return Math.sqrt(Math.pow((x2-x1),2)+Math.pow((y2-y1),2));
@@ -35,7 +35,7 @@ $(document).ready(function() {
   var Board = {
     board: gameboard,
     playerTurn: 1,
-    tilesElem: $(".tiles"),
+    tilesElem: $(".alltiles"),
     viewpoint: ["0vmin", "10vmin", "20vmin", "30vmin", "40vmin", "50vmin", "60vmin", "70vmin", "80vmin", "90vmin"],
     //initialise 8x8 board
     initialise: function(){
@@ -45,21 +45,21 @@ $(document).ready(function() {
         for(column in this.board[row]){
           if(row%2 === 1){
             if(column%2 === 0){
-              this.tilesElem.append('<div class="tiles" id="tile'+countTiles+'"  style="top:'+this.viewpoint[row]+';left:'+this.viewpoint[column]+'; background-color: gray;"></div>');
+              this.tilesElem.append('<div class="tiles" id="tile'+countTiles+'" data-num=' + countTiles +' style="top:'+this.viewpoint[row]+';left:'+this.viewpoint[column]+'; background-color: gray;"></div>');
               tiles[countTiles] = new Tile($("#tile"+countTiles), [parseInt(row), parseInt(column)]);
               countTiles++;
             }else if(column%2 === 1){
-              this.tilesElem.append('<div class="tiles" id="tile'+countTiles+'"  style="top:'+this.viewpoint[row]+';left:'+this.viewpoint[column]+'; background-color: #f4a460;"></div>');
+              this.tilesElem.append('<div class="tiles" id="tile'+countTiles+'" data-num=' + countTiles +'  style="top:'+this.viewpoint[row]+';left:'+this.viewpoint[column]+'; background-color: #f4a460;"></div>');
               tiles[countTiles] = new Tile($("#tile"+countTiles), [parseInt(row), parseInt(column)]);
               countTiles++;
             }
           }else{
             if(column%2 === 0){
-              this.tilesElem.append('<div class="tiles" id="tile'+countTiles+'"  style="top:'+this.viewpoint[row]+';left:'+this.viewpoint[column]+'; background-color: #f4a460;"></div>');
+              this.tilesElem.append('<div class="tiles" id="tile'+countTiles+'" data-num=' + countTiles +'  style="top:'+this.viewpoint[row]+';left:'+this.viewpoint[column]+'; background-color: #f4a460;"></div>');
               tiles[countTiles] = new Tile($("#tile"+countTiles), [parseInt(row), parseInt(column)]);
               countTiles++;
             }else if(column%2 === 1){
-              this.tilesElem.append('<div class="tiles" id="tile'+countTiles+'"  style="top:'+this.viewpoint[row]+';left:'+this.viewpoint[column]+'; background-color: gray;"></div>');
+              this.tilesElem.append('<div class="tiles" id="tile'+countTiles+'" data-num=' + countTiles +'  style="top:'+this.viewpoint[row]+';left:'+this.viewpoint[column]+'; background-color: gray;"></div>');
               tiles[countTiles] = new Tile($("#tile"+countTiles), [parseInt(row), parseInt(column)]);
               countTiles++;
             }
@@ -77,7 +77,6 @@ $(document).ready(function() {
       }
     },
 
-
     //checks if tile is ok to move to
     isValidToMove: function(row, column){
       if(this.board[row][column] === 0){
@@ -89,15 +88,16 @@ $(document).ready(function() {
     // clear: function(){
     //   //reload page?
     // }
-
   }
 
   function changeTurn(){
     player1 != player1;
     player2 != player2;
     if(player1){
+      this.player = 1;
       $(".playerTurn").html("It is player 1's turn");
     }else if(player2){
+      this.player = 2;
       $(".playerTurn").html("It is player 2's turn");
     }
   }
@@ -107,15 +107,17 @@ $(document).ready(function() {
     this.element = element;
     //position of tile
     this.position = position;
-    //check what range tile is to the piece
-    this.inRange = function(piece){
-      if(getDistance(this.position[0], this.position[1], piece.position[0], piece.position[1]) === Math.sqrt(2)){
-        return "regular";
-      }else if(getDistance(this.position[0], this.position[1], piece.position[0], piece.position[1]) === 2*Math.sqrt(2)){
-        return "jumpover";
-      }
+  }
+
+  function inRange(selectpiece, x, y){
+    debugger;
+    if(getDistance(x, y, selectpiece.position[0], selectpiece.position[1]) === Math.sqrt(2)){
+      return "regular";
+    }else if(getDistance(x, y, selectpiece.position[0], selectpiece.position[1]) === 2*Math.sqrt(2)){
+      return "jumpover";
     }
   }
+
 
   function Piece(element, position){
     //links DOM element
@@ -130,64 +132,80 @@ $(document).ready(function() {
     }else{
       this.player = 2;
     };
-    //function to king the piece
-    this.king = false;
-    this.kingify =  function(){
-      this.king = true;
-      //need image of crown to put on piece
-    };
+  }
 
-    //moves piece
-    this.move = function(tile){
-      this.removeClass("selected");
-      if(!Board.isValidToMove(tile.position[0], tile.position[1])){
-        return false;
-      }
-      //ensure piece cannot go backwards (unless its king)
-      if(player1 === true && this.king === false){
-        if(tile.position[0] < this.position[0]){
-          return false;
-        }
-      }else if(player2 === true && this.king === false){
-        if(tile.position[0] < this.position[0]){
-          return false;
-        }
-      }
-      //kings the piece if it reaches the other side of the Board
-      if(!this.king && this.position[0] === 0 || this.position[0] === 7){
-        this.kingify();
-      }
-      changeTurn();
+  //function to king the piece
+  function kingify(selectpiece){
+    $(selectpiece).html("K");
+  }
+
+  //moves piece
+  function movepiece(tile, selectpiece){
+    $(selectpiece.element[0]).removeClass("selected");
+    if(!Board.isValidToMove(tile.position[0], tile.position[1])){
+      return false;
+    }
+    // //ensure piece cannot go backwards (unless its king)
+    // if(player1 === true && king === false){
+    //   if(tile.position[0] > piece.position[0]){
+    //     return false;
+    //   }
+    // }else if(player2 === true && king === false){
+    //   if(tile.position[0] < piece.position[0]){
+    //     return false;
+    //   }
+    // }
+    //removes piece and places in new tile
+    Board.board[selectpiece.position[0]][selectpiece.position[1]] = 0;
+    Board.board[tile.position[0]][tile.position[1]] = this.player;
+    selectpiece.position = [tile.position[0], tile.position[1]];
+    selectpiece.element.css('top', Board.viewpoint[selectpiece.position[0]]);
+    selectpiece.element.css('left', Board.viewpoint[selectpiece.position[1]]);
+    //kings the piece if it reaches the other side of the Board
+    // if(!king && selectpiece.position[0] === 0 || selectpiece.position[0] === 7){
+    //   piece.kingify();
+    // }
+    changeTurn();
+    return true;
+  }
+
+  //checks to see if it is valid for the piece to jump
+  function jump(){
+    if(this.canjump(this.position[0]+2, this.position[1]+2 || this.position[0]+2, this.position[1]-2 || this.position[0]-2, this.position[1]+2 || this.position[0]-2, this.position[1]-2)){
       return true;
+    }else{
+      return false;
     }
+  }
 
-    //checks to see if it is valid for the piece to jump
-    this.jump = function(){
-      if(this.canjump(this.position[0]+2, this.position[1]+2 || this.position[0]+2, this.position[1]-2 || this.position[0]-2, this.position[1]+2 || this.position[0]-2, this.position[1]-2)){
-        return true;
-      }else{
+  function canjump(newTile, piece){
+    //find difference in distance
+    var dx = newTile[1] - piece.position[1];
+    var dy = newTile[0] - piece.position[0];
+    //ensure cant go backwards
+    if(player1 === true && piece.king === false){
+      if(newTile[0] < piece.position[0]){
+        return false;
+      }
+    }else if(player2 === true && piece.king === false){
+      if(newTile[0] > piece.position[0]){
         return false;
       }
     }
-
-    this.canjump = function(newTile){
-      //find difference in distance
-      var dy = newTile[0] - this.position[0];
-      var dx = newTile[1] - this.position[1];
-      //ensure cant go backwards
-      if(player1 === true && this.king === false){
-        if(newTile[0] < this.position[0]){
-          return false;
-        }
-      }else if(player2 === true && this.king === false){
-        if(newTile[0] < this.position[0]){
-          return false;
+    //define the tile in the middle
+    var midx = piece.position[1] + (dx/2);
+    var midy = piece.position[0] + (dy/2);
+    //check if there is space after
+    if(!Board.isValidPlacetoMove(midx, midy) && Board.isValidPlacetoMove(newTile[0], newTile[1])) {
+      //find which object instance is sitting there
+      for(pieceIndex in pieces) {
+        if(pieces[pieceIndex].position[0] == midy && pieces[pieceIndex].position[1] == midx) {
+          if(this.player != pieces[pieceIndex].player) {
+            //return the piece sitting there
+            return pieces[pieceIndex];
+          }
         }
       }
-      //define the tile in the middle
-      var midy = this.position[0] + (dy/2);
-      var midx = this.position[1] + (dx/2);
-      //check if there is space after
     }
   }
 
@@ -204,23 +222,29 @@ $(document).ready(function() {
   });
 
   //move piece when tile clicked
-  $(".tiles").on("click", function(event){
-    console.log("hi");
-    debugger
+  $(".alltiles").on("click", function(event){
     //check if selected
     if($(".selected").length != 0){
       //get tile being clicked
-      var tile = $("this").attr("id");
+      var tile = tiles[$(event.target).attr("id").replace("tile", "")];
       //get piece id
-      var piece = $("this").attr("id");
+      var piece = pieces[$(".selected").attr("id")];
+
+      var test = $('.tiles')[tile.element[0].getAttribute('data-num')];
+      var id = parseInt(test.getAttribute('data-num'));
+      var x = tile.position[0];
+      var y = tile.position[1];
+
+
       //check if tile is in range
-      var inRange = tile.inRange(piece);
-      if(inRange){
+      var inrange = inRange(piece, x, y);
+      debugger
+      if(inrange){
         //if piece can jumpover, check if it can jump again
-        if(inRange == "jumpover"){
-
-        }else if(inRange == "regular"){
-
+        if(inrange == "jumpover"){
+          console.log("jumpover");
+        }else if(inrange == "regular"){
+          movepiece(tile, piece);
         }
       }
     }
