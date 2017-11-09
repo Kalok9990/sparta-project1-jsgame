@@ -1,14 +1,24 @@
 $(document).ready(function() {
 
+  // $(".container").hide();
+  $("#play").click(revealBoard);
+
+  //Function to hide button and reveal board
+  function revealBoard() {
+    $(".container").show();
+    $("#play").hide();
+    countDown();
+  }
+
   var gameboard = [
     [0, 1, 0, 1, 0, 1, 0, 1],
     [1, 0, 1, 0, 1, 0, 1, 0],
     [0, 1, 0, 1, 0, 1, 0, 1],
-    [1, 0, 1, 0, 1, 0, 1, 0],
-    [0, 1, 0, 1, 0, 1, 0, 1],
-    [1, 0, 1, 0, 1, 0, 1, 0],
-    [0, 1, 0, 1, 0, 1, 0, 1],
-    [1, 0, 1, 0, 1, 0, 1, 0]
+    [0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0],
+    [2, 0, 2, 0, 2, 0, 2, 0],
+    [0, 2, 0, 2, 0, 2, 0, 2],
+    [2, 0, 2, 0, 2, 0, 2, 0]
   ];
 
   //stores instances as arrays
@@ -26,36 +36,47 @@ $(document).ready(function() {
     board: gameboard,
     playerTurn: 1,
     tilesElem: $(".tiles"),
-    dictionary: ["0vmin", "10vmin", "20vmin", "30vmin", "40vmin", "50vmin", "60vmin", "70vmin", "80vmin", "90vmin"],
+    viewpoint: ["0vmin", "10vmin", "20vmin", "30vmin", "40vmin", "50vmin", "60vmin", "70vmin", "80vmin", "90vmin"],
     //initialise 8x8 board
-    intialise: function(){
+    initialise: function(){
       var countPieces = 0;
       var countTiles = 0;
       for(row in this.board){
         for(column in this.board[row]){
           if(row%2 === 1){
             if(column%2 === 0){
-              this.tilesElem.append('<div class="tile" id="tile'+countTiles+'"  style="top:'+this.dictionary[row]+';left:'+this.dictionary[column]+';"></div>')
+              this.tilesElem.append('<div class="tiles" id="tile'+countTiles+'"  style="top:'+this.viewpoint[row]+';left:'+this.viewpoint[column]+'; background-color: gray;"></div>');
+              tiles[countTiles] = new Tile($("#tile"+countTiles), [parseInt(row), parseInt(column)]);
+              countTiles++;
+            }else if(column%2 === 1){
+              this.tilesElem.append('<div class="tiles" id="tile'+countTiles+'"  style="top:'+this.viewpoint[row]+';left:'+this.viewpoint[column]+'; background-color: #f4a460;"></div>');
+              tiles[countTiles] = new Tile($("#tile"+countTiles), [parseInt(row), parseInt(column)]);
+              countTiles++;
             }
           }else{
-            if(column%2 === 1){
-              this.tilesElem.append('<div class="tile" id="tile'+countTiles+'"  style="top:'+this.dictionary[row]+';left:'+this.dictionary[column]+';"></div>')
+            if(column%2 === 0){
+              this.tilesElem.append('<div class="tiles" id="tile'+countTiles+'"  style="top:'+this.viewpoint[row]+';left:'+this.viewpoint[column]+'; background-color: #f4a460;"></div>');
               tiles[countTiles] = new Tile($("#tile"+countTiles), [parseInt(row), parseInt(column)]);
-              countTiles += 1;
+              countTiles++;
+            }else if(column%2 === 1){
+              this.tilesElem.append('<div class="tiles" id="tile'+countTiles+'"  style="top:'+this.viewpoint[row]+';left:'+this.viewpoint[column]+'; background-color: gray;"></div>');
+              tiles[countTiles] = new Tile($("#tile"+countTiles), [parseInt(row), parseInt(column)]);
+              countTiles++;
             }
           }
           if(this.board[row][column] == 1) {
-            $(".player1pieces").append('<div class="piece" id="'+countPieces+'" style="top:'+this.dictionary[row]+';left:'+this.dictionary[column]+';"></div>');
+            $(".player1pieces").append('<div class="piece" id="'+countPieces+'" style="top:'+this.viewpoint[row]+';left:'+this.viewpoint[column]+';"></div>');
             pieces[countPieces] = new Piece($("#"+countPieces), [parseInt(row), parseInt(column)]);
-            countPieces += 1;
+            countPieces++;
           }else if(this.board[row][column] == 2){
-            $(".player2pieces").append('<div class="piece" id="'+countPieces+'" style="top:'+this.dictionary[row]+';left:'+this.dictionary[column]+';"></div>');
+            $(".player2pieces").append('<div class="piece" id="'+countPieces+'" style="top:'+this.viewpoint[row]+';left:'+this.viewpoint[column]+';"></div>');
             pieces[countPieces] = new Piece($("#"+countPieces), [parseInt(row), parseInt(column)]);
-            countPieces += 1;
+            countPieces++;
           }
         }
       }
     },
+
 
     //checks if tile is ok to move to
     isValidToMove: function(row, column){
@@ -139,8 +160,86 @@ $(document).ready(function() {
       changeTurn();
       return true;
     }
+
+    //checks to see if it is valid for the piece to jump
+    this.jump = function(){
+      if(this.canjump(this.position[0]+2, this.position[1]+2 || this.position[0]+2, this.position[1]-2 || this.position[0]-2, this.position[1]+2 || this.position[0]-2, this.position[1]-2)){
+        return true;
+      }else{
+        return false;
+      }
+    }
+
+    this.canjump = function(newTile){
+      //find difference in distance
+      var dy = newTile[0] - this.position[0];
+      var dx = newTile[1] - this.position[1];
+      //ensure cant go backwards
+      if(player1 === true && this.king === false){
+        if(newTile[0] < this.position[0]){
+          return false;
+        }
+      }else if(player2 === true && this.king === false){
+        if(newTile[0] < this.position[0]){
+          return false;
+        }
+      }
+      //define the tile in the middle
+      var midy = this.position[0] + (dy/2);
+      var midx = this.position[1] + (dx/2);
+      //check if there is space after
+    }
   }
 
-  Board.intialise();
+  //Click Events
+
+  //check if piece selected
+  $(".pieces").on("click", function(event){
+    var selected = false;
+    if(!selected){
+      $(event.target).addClass("selected");
+    }else if($("this").hasClass("selected")){
+      selected = true;
+    }
+  });
+
+  //move piece when tile clicked
+  $(".tiles").on("click", function(event){
+    console.log("hi");
+    debugger
+    //check if selected
+    if($(".selected").length != 0){
+      //get tile being clicked
+      var tile = $("this").attr("id");
+      //get piece id
+      var piece = $("this").attr("id");
+      //check if tile is in range
+      var inRange = tile.inRange(piece);
+      if(inRange){
+        //if piece can jumpover, check if it can jump again
+        if(inRange == "jumpover"){
+
+        }else if(inRange == "regular"){
+
+        }
+      }
+    }
+  });
+
+  //sets the timer to 30 seconds
+  var i = 30;
+  var countDownInterval;
+  function countDown() {
+    countDownInterval = setInterval(function () {
+      document.getElementById("time").innerHTML = "Time remaining: " + i + "s";
+      i--;
+      if(i < 0){
+        changeTurn();
+        i = 30;
+      }
+    }, 1000);
+  }
+
+  Board.initialise();
 
 });
