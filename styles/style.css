@@ -136,3 +136,14 @@ h2{
 #wQ{
   background-position:-59px 0;
 }
+
+.lost{
+  color: red;
+  font-size: 50px;
+  text-align: center;
+}
+
+#reset{
+  display: block;
+  margin: auto;
+}

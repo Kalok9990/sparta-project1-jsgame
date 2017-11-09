@@ -50,3 +50,7 @@ body{
 .selected{
   border: 3px solid red;
 }
+
+.lost{
+  font-size: 30px;
+}

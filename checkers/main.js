@@ -1,7 +1,8 @@
 $(document).ready(function() {
 
-  // $(".container").hide();
-  $("#play").click(revealBoard);
+  $(".container").hide();
+  $(".lost").hide();
+  $("#reset").hide();
 
   //Function to hide button and reveal board
   function revealBoard() {
@@ -23,7 +24,6 @@ $(document).ready(function() {
   //stores instances as arrays
   var pieces = [];
   var tiles =[];
-  var king = false;
 
   //Pythagoras' Theorem
   function getDistance(x1, x2, y1, y2){
@@ -87,12 +87,12 @@ $(document).ready(function() {
     changeTurn: function(){
       if(this.playerTurn == 1) {
         this.playerTurn = 2;
-        $(".playerTurn").html("It is Player 2's turn")
+        $(".playerTurn").html("It is White's turn")
         return;
       }
       if(this.playerTurn == 2) {
         this.playerTurn = 1;
-        $(".playerTurn").html("It is Player 1's turn")
+        $(".playerTurn").html("It is Black's turn")
       }
     }
   }
@@ -125,57 +125,45 @@ $(document).ready(function() {
     };
   }
 
-  //function to king the piece
-  function kingify(selectpiece){
-    $(selectpiece).html("K");
-  }
-
   //moves piece
   function movepiece(tile, selectpiece){
     $(selectpiece.element[0]).removeClass("selected");
     if(!Board.isValidToMove(tile.position[0], tile.position[1])){
       return false;
     }
-
     //removes piece and places in new tile
-    debugger
     Board.board[selectpiece.position[0]][selectpiece.position[1]] = 0;
     Board.board[tile.position[0]][tile.position[1]] = Board.playerTurn;
     selectpiece.position = [tile.position[0], tile.position[1]];
     selectpiece.element.css('top', Board.viewpoint[selectpiece.position[0]]);
     selectpiece.element.css('left', Board.viewpoint[selectpiece.position[1]]);
-    //kings the piece if it reaches the other side of the Board
-    // if(!king && selectpiece.position[0] === 0 || selectpiece.position[0] === 7){
-    //   piece.kingify();
-    // }
     Board.changeTurn();
     return true;
   }
 
-  //checks to see if it is valid for the piece to jump
-  function jump(selectpiece, selectedtile){
-    debugger;
-    if(canjump([selectpiece.position[0]+2, selectpiece.position[1]+2], selectedtile) ||
-      canjump([selectpiece.position[0]+2, selectpiece.position[1]-2], selectedtile) ||
-      canjump([selectpiece.position[0]-2, selectpiece.position[1]+2], selectedtile) ||
-      canjump([selectpiece.position[0]-2, selectpiece.position[1]-2], selectedtile)){
+  //checks to see if the piece can jump anywhere
+  function jump(possiblepositions, selectedpiece){;
+    if(canjump([possiblepositions.position[0]+2, possiblepositions.position[1]+2], selectedpiece.position) ||
+      canjump([possiblepositions.position[0]+2, possiblepositions.position[1]-2], selectedpiece.position) ||
+      canjump([possiblepositions.position[0]-2, possiblepositions.position[1]+2], selectedpiece.position) ||
+      canjump([possiblepositions.position[0]-2, possiblepositions.position[1]-2], selectedpiece.position)){
       return true;
     }else{
       return false;
     }
   }
 
-  function canjump(piece, newTile){
-    debugger;
+  //checks if the jump is possible
+  function canjump(possibilities, piece){
     //find difference in distance
-    var dx = newTile[1] - piece.position[1];
-    var dy = newTile[0] - piece.position[0];
+    var dx = possibilities[1] - piece[1];
+    var dy = possibilities[0] - piece[0];
 
     //define the tile in the middle
-    var midx = piece.position[1] + (dx/2);
-    var midy = piece.position[0] + (dy/2);
+    var midx = piece[1] + (dx/2);
+    var midy = piece[0] + (dy/2);
     //check if there is space after
-    if(Board.isValidToMove(midx, midy) && Board.isValidToMove(newTile[0], newTile[1])) {
+    if(!Board.isValidToMove(midy, midx) && Board.isValidToMove(possibilities[0], possibilities[1])) {
       //find which object instance is sitting there
       for(pieceIndex in pieces) {
         if(pieces[pieceIndex].position[0] == midy && pieces[pieceIndex].position[1] == midx) {
@@ -189,6 +177,7 @@ $(document).ready(function() {
     }
   }
 
+  //removes piece off the board
   function remove(oppiece){
     //removes piece
     oppiece.element.css("display", "none");
@@ -198,19 +187,38 @@ $(document).ready(function() {
     oppiece.position = [];
   }
 
+  //checks if the piece can be jumped over
   function removepiece(oppiece, tile){
-    debugger
-      var pieceToRemove = canjump(oppiece, tile.position);
-      //if there is a piece to be removed, remove it
-      if(pieceToRemove) {
-        remove(pieces[pieceIndex]);
-        return true;
-      }
-      return false;
+    var pieceToRemove = canjump(tile.position, oppiece.position);
+    //if there is a piece to be removed, remove it
+    if(pieceToRemove) {
+      remove(pieces[pieceIndex]);
+      return true;
+    }
+    return false;
   }
 
+  //function to forfeit
+  function forfeit(){
+    $(".lost").show();
+    $("#reset").show();
+    if(Board.playerTurn === 2){
+      $(".lost").html("White forfeits. Black wins!!");
+    }else if(Board.playerTurn === 1){
+      $(".lost").html("Black forfeits. White wins!!");
+    }
+  }
+
+  //resets board
+  function reset(){
+    location.reload();
+  }
   //Click Events
 
+  $("#play").click(revealBoard);
+  $("#lose").click(forfeit);
+  $("#reset").click(reset);
+  
   //check if piece selected
   $(".pieces").on("click", function(event){
     var selected = false;
@@ -237,10 +245,9 @@ $(document).ready(function() {
       if(inrange){
         //if piece can jumpover, check if it can jump again
         if(inrange == "jumpover"){
-          debugger
           if(removepiece(piece, tile)){
             movepiece(tile,piece);
-            if(jump(piece, tile)){
+            if(jump(piece, piece)){
               changeTurn();
               $(event.target).addClass("selected");
             }

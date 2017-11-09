@@ -14,8 +14,19 @@
     <h1>2 Player Checkers</h1>
     <div id="play">
       <button>Play Game</button>
+      <p>Rules</p>
+      <ul>
+        <li>
+          You need to know the rules of checkers.
+        </li>
+        <li>No king or multiple jumping involved.</li>
+        <li>Black pieces start</li>
+        <li>Press the 'Play Game' button to start the game</li>
+      </ul>
     </div>
     <div class="container">
+      <p class="lost"></p>
+      <button id="reset">Reset Board</button>
       <div id="board">
         <div class="alltiles"></div>
         <div class="pieces">
@@ -23,8 +34,8 @@
           <div class="player2pieces"></div>
         </div>
       </div>
-      <h2 class="playerTurn">It is Player 1's turn</h2>
-      <p id="time"></p>
+      <h2 class="playerTurn">It is Black's turn</h2>
+      <button id="lose">Forfeit</button>
     </div>
   </body>
 </html>

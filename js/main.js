@@ -9,8 +9,11 @@ $( document ).ready(function() {
   var countDownInterval;
 
   $(".container").hide();
+  $(".lost").hide();
+  $("#reset").hide();
   $("#play").click(revealBoard);
   $("#lose").click(forfeit);
+  $("#reset").click(reset);
 
   //Function to hide button and reveal board
   function revealBoard() {
@@ -21,7 +24,18 @@ $( document ).ready(function() {
 
   //function to forfeit
   function forfeit(){
+    $(".lost").show();
+    $("#reset").show();
+    if(white){
+      $(".lost").html("White forfeits. Black wins!!");
+    }else{
+      $(".lost").html("Black forfeits. White wins!!");
+    }
+    clearInterval(countDownInterval);
+  }
 
+  function reset(){
+    location.reload();
   }
 
   //changes the players turn
