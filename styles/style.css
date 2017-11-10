@@ -1,4 +1,9 @@
+body{
+  background-color: #402113;
+}
+
 h1{
+  color: white;
   text-align: center;
   font-family: Bookman;
   font-size: 100px;
