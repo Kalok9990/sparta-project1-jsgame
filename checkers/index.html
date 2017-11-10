@@ -1,26 +1,39 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8">
+    <!-- <meta charset="utf-8"> -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
     <link rel="stylesheet" href="./styles/style.css">
     <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
     <script type="text/javascript" src="./js/main.js"></script>
-    <title>Home Page</title>
+    <title>Checkers</title>
   </head>
   <body>
-    <h1>Games</h1>
-    <div class="wrapper">
-      <div class="container">
-        <button class="chess">Chess</button>
-        <button class="checkers">Checkers</button>
+    <h1>2 Player Checkers</h1>
+    <button class="home">Home</button>
+    <div id="play">
+      <button id="playgame">Play Game</button>
+      <p class="rules">Rules</p>
+      <p>You need to know the rules of checkers.</p>
+      <p>No king or multiple jumping involved.</p>
+      <p>Black pieces start</p>
+      <p>Press the 'Play Game' button to start the game</p>
+      <img class="cheimg" src="./images/giantcheckers.jpg" alt="checkers pieces">
+    </div>
+    <div class="container">
+      <p class="lost"></p>
+      <button id="reset">Reset Board</button>
+      <div id="board">
+        <div class="alltiles"></div>
+        <div class="pieces">
+          <div class="player1pieces"></div>
+          <div class="player2pieces"></div>
+        </div>
       </div>
-      <div class="container">
-        <a href="./chess/index.html"><img class="chessimg" src="./images/Chess.jpg" alt="chess"></a>
-        <a href="./checkers/index.html"><img class="checkersimg" src="./images/checkers.jpg" alt="checkers"></a>
-      </div>
+      <h2 class="playerTurn">It is Black's turn</h2>
+      <button id="lose">Forfeit</button>
     </div>
   </body>
 </html>

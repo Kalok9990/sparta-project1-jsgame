@@ -1,0 +1,183 @@
+body{
+  background-color: #d2d2d2;
+  text-align: center;
+}
+
+h1{
+  text-align: center;
+  font-family: Bookman;
+  font-size: 100px;
+}
+
+button{
+  background-color: #5f675f;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  margin: auto;
+  display: inline-block;
+  margin-top: 25px;
+  margin-bottom: 50px;
+}
+
+.chimg{
+  width: 300px;
+}
+
+.container {
+  width: 90%;
+  height: 800px;
+  margin: auto;
+  text-align: center;
+}
+
+p{
+  font-family: comic;
+  font-size: 20px;
+}
+
+.rules{
+  font-weight: bold;
+  font-size: 40px;
+}
+
+table{
+  display: block;
+  margin: auto;
+  width: 500px;
+  height: 500px;
+  border: solid;
+  border-color: black;
+}
+
+td{
+  width: 62px;
+  height: 62px;
+}
+
+.b{
+  background-color: gray;
+}
+
+.w{
+  background-color: white;
+}
+
+.row {
+  text-align: center;
+}
+
+.row2 {
+  height: 200px;
+}
+
+.two {
+  height: auto;
+}
+
+.three {
+  height: auto;
+}
+
+.four {
+  height: auto;
+}
+
+.five {
+  height: 350px;
+}
+
+.moves{
+  height: 340px;
+  margin-top: 5px;
+  overflow-y:auto;
+  border: solid;
+  border-color: black;
+}
+
+h2{
+  margin-top: 20px;
+}
+
+.killable{
+  border: 2px solid red;
+}
+
+.active{
+  border: 2px solid blue;
+}
+
+.piece{
+  background-image:url('http://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Chess_Pieces_Sprite.svg/2000px-Chess_Pieces_Sprite.svg.png');
+  background-size: 586%;
+  height:62px;
+  width:61px;
+  border:1px solid gray;
+}
+
+.piece:hover{
+  border: 3px solid blue;
+}
+
+#bR{
+  background-position:-234px 60px;
+}
+
+#bP{
+  background-position:60px 60px;
+}
+
+#bB{
+  background-position:237px 60px;
+}
+
+#bKn{
+  background-position:-177px 60px;
+}
+
+#bK{
+  background-position:1px 60px;
+}
+
+#bQ{
+  background-position:-58px 60px;
+}
+
+
+#wR{
+  background-position:120px 0;
+}
+
+#wP{
+  background-position:61px 0;
+}
+
+#wB{
+  background-position:237px 0;
+}
+
+#wKn{
+  background-position:177px 0;
+}
+
+#wK{
+  background-position:1px 0;
+}
+
+#wQ{
+  background-position:-59px 0;
+}
+
+.lost{
+  color: red;
+  font-size: 50px;
+  text-align: center;
+}
+
+#reset{
+  display: block;
+  margin: auto;
+}
