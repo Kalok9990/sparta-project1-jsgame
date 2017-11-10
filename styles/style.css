@@ -1,0 +1,49 @@
+h1{
+  text-align: center;
+  font-family: Bookman;
+  font-size: 100px;
+}
+
+.container{
+  margin-bottom: 10px;
+}
+
+.wrapper{
+  margin-top: 50px;
+  margin-left: 75px;
+  margin-right: 75px;
+}
+
+button{
+  background-color: #5f675f;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  margin: auto;
+  display: inline-block;
+}
+
+.chess{
+  margin-left: 150px;
+}
+
+.checkers{
+  float: right;
+  margin-right: 150px;
+}
+
+.chessimg{
+  width: 400px;
+  margin: auto;
+  display: inline-block;
+}
+
+.checkersimg{
+  width: 450px;
+  margin: auto;
+  display: inline-block;
+  float: right;
+}
