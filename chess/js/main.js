@@ -11,9 +11,14 @@ $( document ).ready(function() {
   $(".container").hide();
   $(".lost").hide();
   $("#reset").hide();
-  $("#play").click(revealBoard);
+  $("#playgame").click(revealBoard);
   $("#lose").click(forfeit);
   $("#reset").click(reset);
+  $(".home").click(gohome);
+
+  function gohome(){
+    window.open("../index.html", "_self");
+  }
 
   //Function to hide button and reveal board
   function revealBoard() {
