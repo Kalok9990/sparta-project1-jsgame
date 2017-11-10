@@ -215,10 +215,10 @@ $(document).ready(function() {
   }
   //Click Events
 
-  $("#play").click(revealBoard);
+  $("#playgame").click(revealBoard);
   $("#lose").click(forfeit);
   $("#reset").click(reset);
-  
+
   //check if piece selected
   $(".pieces").on("click", function(event){
     var selected = false;

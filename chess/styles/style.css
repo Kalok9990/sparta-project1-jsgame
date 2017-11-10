@@ -23,6 +23,10 @@ button{
   margin-bottom: 50px;
 }
 
+.chimg{
+  width: 300px;
+}
+
 .container {
   width: 90%;
   height: 800px;
